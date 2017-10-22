@@ -1,0 +1,12 @@
+c:\MyProjects\EnumShares\bin\Debug\EnumShares.exe.config
+c:\MyProjects\EnumShares\bin\Debug\EnumShares.exe
+c:\MyProjects\EnumShares\bin\Debug\EnumShares.pdb
+c:\MyProjects\EnumShares\obj\Debug\EnumShares.csprojResolveAssemblyReference.cache
+c:\MyProjects\EnumShares\obj\Debug\EnumShares.exe
+c:\MyProjects\EnumShares\obj\Debug\EnumShares.pdb
+C:\MyProjects\NetworkShares_src\bin\Debug\EnumShares.exe.config
+C:\MyProjects\NetworkShares_src\obj\Debug\EnumShares.exe
+C:\MyProjects\NetworkShares_src\obj\Debug\EnumShares.pdb
+C:\MyProjects\NetworkShares_src\bin\Debug\EnumShares.exe
+C:\MyProjects\NetworkShares_src\bin\Debug\EnumShares.pdb
+C:\MyProjects\NetworkShares_src\obj\Debug\EnumShares.csprojResolveAssemblyReference.cache
