@@ -14,7 +14,7 @@
 // User: Adrian Hum/
 // 
 // Created:  2017-10-22 11:51 PM
-// Modified: 2017-10-22 11:55 PM
+// Modified: 2017-10-23 12:17 AM
 
 using System;
 using System.Collections;
@@ -172,8 +172,7 @@ namespace EnumShares
                         return new DirectoryInfo(ToString());
                     else
                         return new DirectoryInfo(Path);
-                else
-                    return new DirectoryInfo(ToString());
+                return new DirectoryInfo(ToString());
             }
         }
 
@@ -269,8 +268,7 @@ namespace EnumShares
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         protected struct UniversalNameInfo
         {
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string lpUniversalName;
+            [MarshalAs(UnmanagedType.LPTStr)] public string lpUniversalName;
         }
 
         /// <summary>Share information, NT, level 2</summary>
@@ -280,18 +278,14 @@ namespace EnumShares
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         protected struct ShareInfo2
         {
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string NetName;
+            [MarshalAs(UnmanagedType.LPWStr)] public string NetName;
             public ShareType ShareType;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string Remark;
+            [MarshalAs(UnmanagedType.LPWStr)] public string Remark;
             public int Permissions;
             public int MaxUsers;
             public int CurrentUsers;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string Path;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string Password;
+            [MarshalAs(UnmanagedType.LPWStr)] public string Path;
+            [MarshalAs(UnmanagedType.LPWStr)] public string Password;
         }
 
         /// <summary>Share information, NT, level 1</summary>
@@ -301,50 +295,41 @@ namespace EnumShares
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         protected struct ShareInfo1
         {
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string NetName;
+            [MarshalAs(UnmanagedType.LPWStr)] public string NetName;
             public ShareType ShareType;
-            [MarshalAs(UnmanagedType.LPWStr)]
-            public string Remark;
+            [MarshalAs(UnmanagedType.LPWStr)] public string Remark;
         }
 
         /// <summary>Share information, Win9x</summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         protected struct ShareInfo50
         {
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 13)]
-            public string NetName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 13)] public string NetName;
 
             public byte bShareType;
             public ushort Flags;
 
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string Remark;
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string Path;
+            [MarshalAs(UnmanagedType.LPTStr)] public string Remark;
+            [MarshalAs(UnmanagedType.LPTStr)] public string Path;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 9)]
-            public string PasswordRW;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 9)]
-            public string PasswordRO;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 9)] public string PasswordRW;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 9)] public string PasswordRO;
 
-            public ShareType ShareType => (ShareType)(bShareType & 0x7F);
+            public ShareType ShareType => (ShareType) (bShareType & 0x7F);
         }
 
         /// <summary>Share information level 1, Win9x</summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
         protected struct ShareInfo1_9X
         {
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 13)]
-            public string NetName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 13)] public string NetName;
             public byte Padding;
 
             public ushort bShareType;
 
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string Remark;
+            [MarshalAs(UnmanagedType.LPTStr)] public string Remark;
 
-            public ShareType ShareType => (ShareType)(bShareType & 0x7FFF);
+            public ShareType ShareType => (ShareType) (bShareType & 0x7FFF);
         }
 
         #endregion
@@ -418,12 +403,12 @@ namespace EnumShares
                         var pItem = new IntPtr(lpItem);
                         if (1 == level)
                         {
-                            var si = (ShareInfo1)Marshal.PtrToStructure(pItem, t);
+                            var si = (ShareInfo1) Marshal.PtrToStructure(pItem, t);
                             shares.Add(si.NetName, string.Empty, si.ShareType, si.Remark);
                         }
                         else
                         {
-                            var si = (ShareInfo2)Marshal.PtrToStructure(pItem, t);
+                            var si = (ShareInfo2) Marshal.PtrToStructure(pItem, t);
                             shares.Add(si.NetName, si.Path, si.ShareType, si.Remark);
                         }
                     }
@@ -448,7 +433,7 @@ namespace EnumShares
 
             var t = typeof(ShareInfo50);
             var size = Marshal.SizeOf(t);
-            var cbBuffer = (ushort)(MaxSi50Entries * size);
+            var cbBuffer = (ushort) (MaxSi50Entries * size);
             //On Win9x, must allocate buffer before calling API
             var pBuffer = Marshal.AllocHGlobal(cbBuffer);
 
@@ -476,12 +461,12 @@ namespace EnumShares
 
                         if (1 == level)
                         {
-                            var si = (ShareInfo1_9X)Marshal.PtrToStructure(pItem, t);
+                            var si = (ShareInfo1_9X) Marshal.PtrToStructure(pItem, t);
                             shares.Add(si.NetName, string.Empty, si.ShareType, si.Remark);
                         }
                         else
                         {
-                            var si = (ShareInfo50)Marshal.PtrToStructure(pItem, t);
+                            var si = (ShareInfo50) Marshal.PtrToStructure(pItem, t);
                             shares.Add(si.NetName, si.Path, si.ShareType, si.Remark);
                         }
                     }
@@ -566,7 +551,7 @@ namespace EnumShares
             if (ErrorMoreData == nRet)
             {
                 var pBuffer = Marshal.AllocHGlobal(bufferSize);
-                
+
                 try
                 {
                     nRet = WNetGetUniversalName(
@@ -574,7 +559,7 @@ namespace EnumShares
                         pBuffer, ref bufferSize);
 
                     if (NoError == nRet)
-                        rni = (UniversalNameInfo)Marshal.PtrToStructure(pBuffer,
+                        rni = (UniversalNameInfo) Marshal.PtrToStructure(pBuffer,
                             typeof(UniversalNameInfo));
                 }
                 finally
@@ -699,7 +684,7 @@ namespace EnumShares
         /// <summary>
         ///     Returns the <see cref="Share" /> at the specified index.
         /// </summary>
-        public Share this[int index] => (Share)InnerList[index];
+        public Share this[int index] => (Share) InnerList[index];
 
         /// <summary>
         ///     Returns the <see cref="Share" /> which matches a given local path
@@ -718,7 +703,7 @@ namespace EnumShares
 
                 foreach (var t in InnerList)
                 {
-                    var s = (Share)t;
+                    var s = (Share) t;
 
                     if (!s.IsFileSystem || !s.MatchesPath(path)) continue;
                     if (null == match)
